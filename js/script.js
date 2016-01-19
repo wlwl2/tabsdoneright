@@ -1,13 +1,10 @@
-//http://www.tutorialrepublic.com/codelab.php?topic=faq&file=bootstrap-keep-last-selected-tab-active-on-page-refresh
-//var myArray = []; if (!myArray[0]) myFunction();
-
-
 if (!juis) {
   var juis = {};
 }
 
 juis.tabList = {
   tabGroups: document.querySelectorAll(".g-tab__tab-group"),
+  //hash in the URL (document.location) is dangerous?
   storageIndex: "selectedTabPanel" + document.location,
   init: function() {
     //if tab groups don't exist
@@ -106,31 +103,7 @@ juis.tabList = {
     //prevent hash change
     event.preventDefault();
     return false;
-    //switch to the selected tab
-    //no point having bind?
-    //how to loop
-    //when the first tab is clicked, show its tab panel and hide the other tab panels
-/*    juis.tabList.tabs[0].onclick = function(){
-      juis.tabList.tabpanels[0].setAttribute("aria-hidden", "false");
-      juis.tabList.tabpanels[1].setAttribute("aria-hidden", "true");
-      juis.tabList.tabpanels[2].setAttribute("aria-hidden", "true");
-      localStorage.setItem("selectedtab", "1");
-    };
-    //when the second tab is clicked, show its tab panel and hide the other tab panels
-    juis.tabList.tabs[1].onclick = function(){
-      juis.tabList.tabpanels[1].setAttribute("aria-hidden", "false");
-      juis.tabList.tabpanels[0].setAttribute("aria-hidden", "true");
-      juis.tabList.tabpanels[2].setAttribute("aria-hidden", "true");
-      localStorage.setItem("selectedtab", "2");
-    };
-    //when the third tab is clicked, show its tab panel and hide the other tab panels
-    juis.tabList.tabs[2].onclick = function(){
-      juis.tabList.tabpanels[2].setAttribute("aria-hidden", "false");
-      juis.tabList.tabpanels[1].setAttribute("aria-hidden", "true");
-      juis.tabList.tabpanels[0].setAttribute("aria-hidden", "true");
-      localStorage.setItem("selectedtab", "3");
-    };
-    */
+
   },
   getCurrentTabs: function() {
     var currentTabs = new Array();
