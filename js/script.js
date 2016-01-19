@@ -13,6 +13,7 @@ juis.tabList = {
     }
     juis.tabList.setup();
     juis.tabList.bind();
+    juis.tabList.arrowKeyNavigation();
   },
   setup: function () {
     //fetch previously selected tabs
@@ -112,6 +113,32 @@ juis.tabList = {
       currentTabs = storedTabs.split(",");
     }
     return currentTabs;
+  },
+
+  arrowKeyNavigation: function() {
+    document.onkeydown = function(event) {
+     if (!event)
+          event = window.event;
+     var code = event.keyCode;
+     if (event.charCode && code == 0)
+          code = event.charCode;
+     switch(code) {
+          case 37:
+              // Key left.
+              console.log("left arrow key pressed")
+              break;
+          case 38:
+              // Key up.
+              break;
+          case 39:
+              // Key right.
+              break;
+          case 40:
+              // Key down.
+              break;
+     }
+     event.preventDefault();
+    };
   }
 };
 

@@ -18,12 +18,17 @@
 }
 
 .g-tab__tab a:hover,
-.g-tab__tab a:focus,
 .g-tab__tab a:active,
 .g-tab__tab[aria-selected="true"] a {
   background: #fff;
   border-color: #000;
   color: #000;
+}
+
+.g-tab__tab a:focus {
+  background: black;
+  border-color: black;
+  color: white;
 }
 
 [aria-hidden="true"] {
