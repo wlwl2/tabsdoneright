@@ -1,0 +1,35 @@
+.g-tab__tab-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.g-tab__tab {
+  display: inline-block;
+}
+
+.g-tab__tab a {
+  display: inline-block;
+  padding: 5px;
+  border: 2px solid;
+  border-bottom: 0;
+  background: #eef;
+  text-decoration: none;
+}
+
+.g-tab__tab a:hover,
+.g-tab__tab a:focus,
+.g-tab__tab a:active,
+.g-tab__tab[aria-selected="true"] a {
+  background: #fff;
+  border-color: #000;
+  color: #000;
+}
+
+[aria-hidden="true"] {
+  display: none;
+}
+
+.g-tab__tab-panel {
+  border: 2px solid;
+}
