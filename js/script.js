@@ -116,6 +116,9 @@ juis.tabList = {
   },
 
   arrowKeyNavigation: function() {
+    //on navigate to the left and the right
+    /*
+
     document.onkeydown = function(event) {
      if (!event)
           event = window.event;
@@ -125,7 +128,6 @@ juis.tabList = {
      switch(code) {
           case 37:
               // Key left.
-              console.log("left arrow key pressed")
               break;
           case 38:
               // Key up.
@@ -138,7 +140,45 @@ juis.tabList = {
               break;
      }
      event.preventDefault();
-    };
+};
+
+    */
+
+    window.addEventListener("keydown", function (event) {
+  if (event.defaultPrevented) {
+    return; // Should do nothing if the key event was already consumed.
+  }
+
+  switch (event.key) {
+    case "ArrowDown":
+      // Do something for "down arrow" key press.
+      break;
+    case "ArrowUp":
+      // Do something for "up arrow" key press.
+      break;
+    case "ArrowLeft":
+      // Do something for "left arrow" key press.
+      alert("left arrow key pressed")
+      break;
+    case "ArrowRight":
+      // Do something for "right arrow" key press.
+      alert("right arrow key pressed")
+      break;
+    case "Enter":
+      // Do something for "enter" or "return" key press.
+      break;
+    case "Escape":
+      // Do something for "esc" key press.
+      break;
+    default:
+      return; // Quit when this doesn't handle the key event.
+  }
+
+  // Consume the event for suppressing "double action".
+  event.preventDefault();
+}, true);
+
+
   }
 };
 
