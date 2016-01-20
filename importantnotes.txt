@@ -1,0 +1,2 @@
+If the label text is visible on screen, authors SHOULD use aria-labelledby and SHOULD NOT use aria-label. 
+Use aria-label only if the interface is such that it is not possible to have a visible label on the screen.

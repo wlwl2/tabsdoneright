@@ -13,7 +13,7 @@ juis.tabList = {
     }
     juis.tabList.setup();
     juis.tabList.bind();
-    juis.tabList.arrowKeyNavigation();
+    //juis.tabList.keyNav();
   },
   setup: function () {
     //fetch previously selected tabs
@@ -23,6 +23,7 @@ juis.tabList = {
     for (var i=0; i < juis.tabList.tabGroups.length; i++) {
       //hide tab panels (for all tab groups)
       var tabPanels = juis.tabList.tabGroups[i].querySelectorAll(".g-tab__tab-panel");
+      tabPanels.setAttribute("tabIndex", "0")
 
       var anyShown = false;
       for (var j=0; j < tabPanels.length; j++) {
@@ -113,15 +114,11 @@ juis.tabList = {
       currentTabs = storedTabs.split(",");
     }
     return currentTabs;
-  },
-  arrowKeyNavigation: function() {
-    //using the left and right arrow buttons to change tabs.
+  }/*,
+  keyNav: function() {
+    //change focus betwen tabs using the left and right arrow keys
     window.addEventListener("keydown", function (event) {
-      if (event.defaultPrevented) {
-        return; // Should do nothing if the key event was already consumed.
-      }
-
-    switch (event.key) {
+      switch (event.key) {
       case "ArrowLeft":
         // Do something for "left arrow" key press.
         console.log("left arrow key pressed");
@@ -130,15 +127,35 @@ juis.tabList = {
         // Do something for "right arrow" key press.
         console.log("right arrow key pressed");
         break;
+      case "Tab":
+        // Do something for "Tab" key press.
+        // if on a tablist, then pressing TAB when on a tab goes to h3 header of the tabs panel
+        console.log("tab key pressed");
+        break;
       default:
         return; // Quit when this doesn't handle the key event.
-    }
+      };
+    });
+  },
 
-  // Consume the event for suppressing "double action".
-      event.preventDefault();
-    }, true);
-  }
+  leftArrow: function() {
+    //if focus is on
+
+  },
+
+  rightArrow: function() {
+
+
+  }*/
+
 };
+
+/* Switch focus between the aria-selected tab and the content itself without having to cycle through all the irrelevant tabs.
+Change focus between the selected tab and the selected panel using the TAB key.
+Pressing TAB will focus the first element inside the visible tab panel. */
+
+
+
 
 document.addEventListener("DOMContentLoaded", function() {
   juis.tabList.init();
