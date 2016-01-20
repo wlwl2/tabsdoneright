@@ -114,71 +114,29 @@ juis.tabList = {
     }
     return currentTabs;
   },
-
   arrowKeyNavigation: function() {
-    //on navigate to the left and the right
-    /*
-
-    document.onkeydown = function(event) {
-     if (!event)
-          event = window.event;
-     var code = event.keyCode;
-     if (event.charCode && code == 0)
-          code = event.charCode;
-     switch(code) {
-          case 37:
-              // Key left.
-              break;
-          case 38:
-              // Key up.
-              break;
-          case 39:
-              // Key right.
-              break;
-          case 40:
-              // Key down.
-              break;
-     }
-     event.preventDefault();
-};
-
-    */
-
+    //using the left and right arrow buttons to change tabs.
     window.addEventListener("keydown", function (event) {
-  if (event.defaultPrevented) {
-    return; // Should do nothing if the key event was already consumed.
-  }
+      if (event.defaultPrevented) {
+        return; // Should do nothing if the key event was already consumed.
+      }
 
-  switch (event.key) {
-    case "ArrowDown":
-      // Do something for "down arrow" key press.
-      break;
-    case "ArrowUp":
-      // Do something for "up arrow" key press.
-      break;
-    case "ArrowLeft":
-      // Do something for "left arrow" key press.
-      alert("left arrow key pressed")
-      break;
-    case "ArrowRight":
-      // Do something for "right arrow" key press.
-      alert("right arrow key pressed")
-      break;
-    case "Enter":
-      // Do something for "enter" or "return" key press.
-      break;
-    case "Escape":
-      // Do something for "esc" key press.
-      break;
-    default:
-      return; // Quit when this doesn't handle the key event.
-  }
+    switch (event.key) {
+      case "ArrowLeft":
+        // Do something for "left arrow" key press.
+        console.log("left arrow key pressed");
+        break;
+      case "ArrowRight":
+        // Do something for "right arrow" key press.
+        console.log("right arrow key pressed");
+        break;
+      default:
+        return; // Quit when this doesn't handle the key event.
+    }
 
   // Consume the event for suppressing "double action".
-  event.preventDefault();
-}, true);
-
-
+      event.preventDefault();
+    }, true);
   }
 };
 

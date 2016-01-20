@@ -17,7 +17,7 @@
   text-decoration: none;
 }
 
-.g-tab__tab a:hover,
+
 .g-tab__tab a:active,
 .g-tab__tab[aria-selected="true"] a {
   background: #fff;
@@ -25,6 +25,7 @@
   color: #000;
 }
 
+.g-tab__tab a:hover,
 .g-tab__tab a:focus {
   background: black;
   border-color: black;
