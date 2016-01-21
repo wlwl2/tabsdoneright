@@ -4,8 +4,6 @@ if (!juis) {
 
 juis.tabList = {
   tabGroups: document.querySelectorAll(".g-tab__tab-group"),
-  allTabLists: document.querySelectorAll(".g-tab__tab-list"),
-  allTabs: document.querySelectorAll(".g-tab__tab"),
   //hash in the URL (document.location) is dangerous?
   storageIndex: "selectedTabPanel" + document.location,
   init: function() {
@@ -13,19 +11,9 @@ juis.tabList = {
     if (!document.querySelector(".g-tab__tab-group")) {
       return;
     }
-    juis.tabList.setAria();
     juis.tabList.setup();
     juis.tabList.bind();
     //juis.tabList.keyNav();
-  },
-  setAria: function () {
-    for (var i=0; i < juis.tabList.allTabLists.length; i++) {
-      juis.tabList.allTabLists[i].setAttribute("role", "tablist");
-    };
-    for (var j=0; j < juis.tabList.allTabs.length; j++) {
-      juis.tabList.allTabs[i].setAttribute("role", "tab");
-      juis.tabList.allTabs[i].setAttribute("tabIndex", "-1");
-    };
   },
   setup: function () {
     //fetch previously selected tabs
@@ -37,17 +25,24 @@ juis.tabList = {
       var tabPanels = juis.tabList.tabGroups[i].querySelectorAll(".g-tab__tab-panel");
 
       var anyShown = false;
+
       for (var j=0; j < tabPanels.length; j++) {
         //if tab panel ID is not in currentTabs
         if (currentTabs.indexOf("#" + tabPanels[j].id) === -1) {
-          //hide
+          //hide it
           tabPanels[j].setAttribute("aria-hidden", "true");
-        } else {
+          //select associated tab (for tabindex)
+          document.querySelector(".g-tab__tab a[href='#" + tabPanels[j].id + "']").parentElement.setAttribute("tabindex", "-1");
+        }
+        else {
           //leave it visible
           anyShown = true;
-
+          tabPanels[j].setAttribute("role", "tabpanel")
+          tabPanels[j].setAttribute("tabindex", "0")
           //select associated tab
           document.querySelector(".g-tab__tab a[href='#" + tabPanels[j].id + "']").parentElement.setAttribute("aria-selected", "true");
+          document.querySelector(".g-tab__tab a[href='#" + tabPanels[j].id + "']").parentElement.setAttribute("role", "tab");
+          document.querySelector(".g-tab__tab a[href='#" + tabPanels[j].id + "']").parentElement.setAttribute("tabindex", "0");
         }
       }
 
@@ -56,18 +51,21 @@ juis.tabList = {
         //show the first tab panel
         tabPanels[0].setAttribute("aria-hidden", "false");
         tabPanels[0].setAttribute("tabindex", "0");
+        tabPanels[0].setAttribute("role", "tabpanel");
 
         //select first tab
         var tabs = juis.tabList.tabGroups[i].querySelectorAll(".g-tab__tab");
         tabs[0].setAttribute("aria-selected", "true");
         tabs[0].setAttribute("tabindex", "0");
+        tabs[0].setAttribute("role", "tab");
       }
     }
   },
   bind: function() {
+    var tabs = document.querySelectorAll(".g-tab__tab");
     //if any of the tabs are clicked run activateTab
-    for (var i=0; i < juis.tabList.allTabs.length; i++) {
-      juis.tabList.allTabs[i].addEventListener("click", juis.tabList.activateTab);
+    for (var i=0; i < tabs.length; i++) {
+      tabs[i].addEventListener("click", juis.tabList.activateTab);
     }
   },
   activateTab: function (event) {
