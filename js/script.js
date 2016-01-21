@@ -4,6 +4,7 @@ if (!juis) {
 
 juis.tabList = {
   tabGroups: document.querySelectorAll(".g-tab__tab-group"),
+  tabLista: document.querySelectorAll(".g-tab__tab-list a"),
   //hash in the URL (document.location) is dangerous?
   storageIndex: "selectedTabPanel" + document.location,
   init: function() {
@@ -16,6 +17,11 @@ juis.tabList = {
     //juis.tabList.keyNav();
   },
   setup: function () {
+    //make all tablist a's unselectable
+    for (var h=0; h < juis.tabList.tabLista.length; h++) {
+      juis.tabList.tabLista[h].setAttribute("tabindex", "-1");
+    };
+
     //fetch previously selected tabs
     var currentTabs = juis.tabList.getCurrentTabs();
 
@@ -53,11 +59,21 @@ juis.tabList = {
         tabPanels[0].setAttribute("tabindex", "0");
         tabPanels[0].setAttribute("role", "tabpanel");
 
+        //make the other tabpanels have a tabindex of -1
+        for (var j=1; j < tabPanels.length; j++) {
+          tabPanels[j].setAttribute("tabindex", "-1");
+        };
+
         //select first tab
         var tabs = juis.tabList.tabGroups[i].querySelectorAll(".g-tab__tab");
         tabs[0].setAttribute("aria-selected", "true");
         tabs[0].setAttribute("tabindex", "0");
         tabs[0].setAttribute("role", "tab");
+
+        //make the other tabs have a tabindex of -1
+        for (var k=1; k < tabPanels.length; k++) {
+          tabs[k].setAttribute("tabindex", "-1");
+        };
       }
     }
   },
@@ -86,12 +102,14 @@ juis.tabList = {
       if (this.parentElement.children[i].hasAttribute("aria-selected")) {
         oldTabPanel = this.parentElement.children[i].firstChild.getAttribute("href");
         this.parentElement.children[i].removeAttribute("aria-selected");
+        this.parentElement.children[i].setAttribute("tabindex", "-1");
         break;
       }
     }
 
     //hide old tab panel
     document.querySelector(oldTabPanel).setAttribute("aria-hidden", "true");
+    document.querySelector(oldTabPanel).setAttribute("tabindex", "-1");
 
     //remove old tab ID from storage
     var tabIndex = currentTabs.indexOf(oldTabPanel);
@@ -101,12 +119,14 @@ juis.tabList = {
 
     //select new clicked tab
     this.setAttribute("aria-selected", "true");
+    this.setAttribute("tabindex", "0");
 
     //show new tab panel
     var newTabPanel = this.firstChild.getAttribute("href");
 
     //show new tab
     document.querySelector(newTabPanel).setAttribute("aria-hidden", "false");
+    document.querySelector(newTabPanel).setAttribute("tabindex", "0");
 
     //add new tab to storage
     currentTabs.push(newTabPanel);
