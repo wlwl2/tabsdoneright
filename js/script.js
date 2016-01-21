@@ -16,9 +16,10 @@ juis.tabList = {
     juis.tabList.bind();
   },
   setup: function () {
-    //make all tablist a's unselectable
+    //make all tablist a's unselectable and label all tabs with their role
     for (var h=0; h < juis.tabList.tabLista.length; h++) {
       juis.tabList.tabLista[h].setAttribute("tabindex", "-1");
+      juis.tabList.tabLista[h].parentElement.setAttribute("role", "tab");
     };
 
     //fetch previously selected tabs
@@ -46,7 +47,6 @@ juis.tabList = {
           tabPanels[j].setAttribute("tabindex", "0")
           //select associated tab
           document.querySelector(".g-tab__tab a[href='#" + tabPanels[j].id + "']").parentElement.setAttribute("aria-selected", "true");
-          document.querySelector(".g-tab__tab a[href='#" + tabPanels[j].id + "']").parentElement.setAttribute("role", "tab");
           document.querySelector(".g-tab__tab a[href='#" + tabPanels[j].id + "']").parentElement.setAttribute("tabindex", "0");
         }
       }
@@ -67,7 +67,6 @@ juis.tabList = {
         var tabs = juis.tabList.tabGroups[i].querySelectorAll(".g-tab__tab");
         tabs[0].setAttribute("aria-selected", "true");
         tabs[0].setAttribute("tabindex", "0");
-        tabs[0].setAttribute("role", "tab");
 
         //make the other tabs have a tabindex of -1
         for (var k=1; k < tabPanels.length; k++) {
