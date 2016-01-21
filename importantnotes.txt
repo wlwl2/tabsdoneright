@@ -1,2 +1,24 @@
 If the label text is visible on screen, authors SHOULD use aria-labelledby and SHOULD NOT use aria-label. 
 Use aria-label only if the interface is such that it is not possible to have a visible label on the screen.
+
+
+Microsoft on-screen reader
+Chrome
+doesnt work well at all. only the hyperlinks are read aloud.
+
+
+Mozilla
+doesnt work well at all.
+
+IE
+Works but not smoothly. eg problems with identifying the tab button. text can be read.
+
+NVDA
+Chrome
+Unknown everytime TAB is used to focus. Arrow keys dont work.
+
+Mozilla
+Works the best. Does what it says in Heydonworks. To read the text after h3 press the down arrow key. The up and down arrow keys can be used to navigate up and down the webpage to read all of the elements/contents/text and scrolls up and down the page once it goes over the portion shown to the reader. Pressing TAB only allows the "selected by TAB" elements to be read aloud.
+
+IE
+Works ok although less smooth than Mozilla. Section 1, section 2, section 3 tab controls... Section 1 tab http. Can read the whole screen in front of the reader automatically. pressing TAB after the tab button is selected makes the next part h3 etc read automatically.

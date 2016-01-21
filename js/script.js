@@ -4,6 +4,8 @@ if (!juis) {
 
 juis.tabList = {
   tabGroups: document.querySelectorAll(".g-tab__tab-group"),
+  allTabLists: document.querySelectorAll(".g-tab__tab-list"),
+  allTabs: document.querySelectorAll(".g-tab__tab"),
   //hash in the URL (document.location) is dangerous?
   storageIndex: "selectedTabPanel" + document.location,
   init: function() {
@@ -11,9 +13,19 @@ juis.tabList = {
     if (!document.querySelector(".g-tab__tab-group")) {
       return;
     }
+    juis.tabList.setAria();
     juis.tabList.setup();
     juis.tabList.bind();
     //juis.tabList.keyNav();
+  },
+  setAria: function () {
+    for (var i=0; i < juis.tabList.allTabLists.length; i++) {
+      juis.tabList.allTabLists[i].setAttribute("role", "tablist");
+    };
+    for (var j=0; j < juis.tabList.allTabs.length; j++) {
+      juis.tabList.allTabs[i].setAttribute("role", "tab");
+      juis.tabList.allTabs[i].setAttribute("tabIndex", "-1");
+    };
   },
   setup: function () {
     //fetch previously selected tabs
@@ -23,7 +35,6 @@ juis.tabList = {
     for (var i=0; i < juis.tabList.tabGroups.length; i++) {
       //hide tab panels (for all tab groups)
       var tabPanels = juis.tabList.tabGroups[i].querySelectorAll(".g-tab__tab-panel");
-      tabPanels.setAttribute("tabIndex", "0")
 
       var anyShown = false;
       for (var j=0; j < tabPanels.length; j++) {
@@ -44,18 +55,19 @@ juis.tabList = {
       if (!anyShown) {
         //show the first tab panel
         tabPanels[0].setAttribute("aria-hidden", "false");
+        tabPanels[0].setAttribute("tabindex", "0");
 
         //select first tab
         var tabs = juis.tabList.tabGroups[i].querySelectorAll(".g-tab__tab");
         tabs[0].setAttribute("aria-selected", "true");
+        tabs[0].setAttribute("tabindex", "0");
       }
     }
   },
   bind: function() {
-    var tabs = document.querySelectorAll(".g-tab__tab");
     //if any of the tabs are clicked run activateTab
-    for (var i=0; i < tabs.length; i++) {
-      tabs[i].addEventListener("click", juis.tabList.activateTab);
+    for (var i=0; i < juis.tabList.allTabs.length; i++) {
+      juis.tabList.allTabs[i].addEventListener("click", juis.tabList.activateTab);
     }
   },
   activateTab: function (event) {
