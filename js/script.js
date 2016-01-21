@@ -14,7 +14,6 @@ juis.tabList = {
     }
     juis.tabList.setup();
     juis.tabList.bind();
-    //juis.tabList.keyNav();
   },
   setup: function () {
     //make all tablist a's unselectable
@@ -82,7 +81,128 @@ juis.tabList = {
     //if any of the tabs are clicked run activateTab
     for (var i=0; i < tabs.length; i++) {
       tabs[i].addEventListener("click", juis.tabList.activateTab);
-    }
+      tabs[i].addEventListener("keydown", function (event) {
+        switch (event.key) {
+        case "ArrowLeft":
+          // Do something for "left arrow" key press.
+
+          //set focus on the prev tab
+          this.previousElementSibling.focus();
+
+          var tabGroup = this.previousElementSibling.parentElement.parentElement;
+
+          if (!tabGroup.classList.contains("g-tab__tab-group")) {
+            //todo: throw error "Broken HTML!"
+            console.log("HTML does not contain correct class for tab group!");
+          }
+
+          //get currently selected tabs
+          var currentTabs = juis.tabList.getCurrentTabs();
+
+          //deselect old clicked tab
+          var oldTabPanel;
+          for (var i=0; i < this.previousElementSibling.parentElement.children.length; i++) {
+            if (this.previousElementSibling.parentElement.children[i].hasAttribute("aria-selected")) {
+              oldTabPanel = this.previousElementSibling.parentElement.children[i].firstChild.getAttribute("href");
+              this.previousElementSibling.parentElement.children[i].removeAttribute("aria-selected");
+              this.previousElementSibling.parentElement.children[i].setAttribute("tabindex", "-1");
+              break;
+            }
+          }
+
+          //hide old tab panel
+          document.querySelector(oldTabPanel).setAttribute("aria-hidden", "true");
+          document.querySelector(oldTabPanel).setAttribute("tabindex", "-1");
+
+          //remove old tab ID from storage
+          var tabIndex = currentTabs.indexOf(oldTabPanel);
+          if (tabIndex > -1) {
+            currentTabs.splice(tabIndex, 1);
+          }
+
+          //select new clicked tab
+          this.previousElementSibling.setAttribute("aria-selected", "true");
+          this.previousElementSibling.setAttribute("tabindex", "0");
+
+          //show new tab panel
+          var newTabPanel = this.previousElementSibling.firstChild.getAttribute("href");
+
+          //show new tab
+          document.querySelector(newTabPanel).setAttribute("aria-hidden", "false");
+          document.querySelector(newTabPanel).setAttribute("tabindex", "0");
+
+          //add new tab to storage
+          currentTabs.push(newTabPanel);
+          localStorage.setItem(juis.tabList.storageIndex, currentTabs.join());
+
+          //prevent hash change
+          event.preventDefault();
+          return false;
+
+          break;
+        case "ArrowRight":
+          // Do something for "right arrow" key press.
+
+          //set focus on the prev tab
+          this.nextElementSibling.focus();
+
+          var tabGroup = this.nextElementSibling.parentElement.parentElement;
+
+          if (!tabGroup.classList.contains("g-tab__tab-group")) {
+            //todo: throw error "Broken HTML!"
+            console.log("HTML does not contain correct class for tab group!");
+          }
+
+          //get currently selected tabs
+          var currentTabs = juis.tabList.getCurrentTabs();
+
+          //deselect old clicked tab
+          var oldTabPanel;
+          for (var i=0; i < this.nextElementSibling.parentElement.children.length; i++) {
+            if (this.nextElementSibling.parentElement.children[i].hasAttribute("aria-selected")) {
+              oldTabPanel = this.nextElementSibling.parentElement.children[i].firstChild.getAttribute("href");
+              this.nextElementSibling.parentElement.children[i].removeAttribute("aria-selected");
+              this.nextElementSibling.parentElement.children[i].setAttribute("tabindex", "-1");
+              break;
+            }
+          }
+
+          //hide old tab panel
+          document.querySelector(oldTabPanel).setAttribute("aria-hidden", "true");
+          document.querySelector(oldTabPanel).setAttribute("tabindex", "-1");
+
+          //remove old tab ID from storage
+          var tabIndex = currentTabs.indexOf(oldTabPanel);
+          if (tabIndex > -1) {
+            currentTabs.splice(tabIndex, 1);
+          }
+
+          //select new clicked tab
+          this.nextElementSibling.setAttribute("aria-selected", "true");
+          this.nextElementSibling.setAttribute("tabindex", "0");
+
+          //show new tab panel
+          var newTabPanel = this.nextElementSibling.firstChild.getAttribute("href");
+
+          //show new tab
+          document.querySelector(newTabPanel).setAttribute("aria-hidden", "false");
+          document.querySelector(newTabPanel).setAttribute("tabindex", "0");
+
+          //add new tab to storage
+          currentTabs.push(newTabPanel);
+          localStorage.setItem(juis.tabList.storageIndex, currentTabs.join());
+
+          //prevent hash change
+          event.preventDefault();
+          return false;
+
+          break;
+        default:
+          return; // Quit when this doesn't handle the key event.
+
+        };
+      });
+    };
   },
   activateTab: function (event) {
     //check if there are any tab groups on the page
@@ -144,48 +264,8 @@ juis.tabList = {
       currentTabs = storedTabs.split(",");
     }
     return currentTabs;
-  }/*,
-  keyNav: function() {
-    //change focus betwen tabs using the left and right arrow keys
-    window.addEventListener("keydown", function (event) {
-      switch (event.key) {
-      case "ArrowLeft":
-        // Do something for "left arrow" key press.
-        console.log("left arrow key pressed");
-        break;
-      case "ArrowRight":
-        // Do something for "right arrow" key press.
-        console.log("right arrow key pressed");
-        break;
-      case "Tab":
-        // Do something for "Tab" key press.
-        // if on a tablist, then pressing TAB when on a tab goes to h3 header of the tabs panel
-        console.log("tab key pressed");
-        break;
-      default:
-        return; // Quit when this doesn't handle the key event.
-      };
-    });
-  },
-
-  leftArrow: function() {
-    //if focus is on
-
-  },
-
-  rightArrow: function() {
-
-
-  }*/
-
+  }
 };
-
-/* Switch focus between the aria-selected tab and the content itself without having to cycle through all the irrelevant tabs.
-Change focus between the selected tab and the selected panel using the TAB key.
-Pressing TAB will focus the first element inside the visible tab panel. */
-
-
-
 
 document.addEventListener("DOMContentLoaded", function() {
   juis.tabList.init();
