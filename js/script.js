@@ -81,127 +81,48 @@ juis.tabList = {
     for (var i=0; i < tabs.length; i++) {
       tabs[i].addEventListener("click", juis.tabList.activateTab);
       tabs[i].addEventListener("keydown", function (event) {
+        //if modifier key is pressed, get out (don't change tabs with left or right)
         switch (event.key) {
-        case "ArrowLeft":
-          // Do something for "left arrow" key press.
-
-          //set focus on the prev tab
-          this.previousElementSibling.focus();
-
-          var tabGroup = this.previousElementSibling.parentElement.parentElement;
-
-          if (!tabGroup.classList.contains("g-tab__tab-group")) {
-            //todo: throw error "Broken HTML!"
-            console.log("HTML does not contain correct class for tab group!");
-          }
-
-          //get currently selected tabs
-          var currentTabs = juis.tabList.getCurrentTabs();
-
-          //deselect old clicked tab
-          var oldTabPanel;
-          for (var i=0; i < this.previousElementSibling.parentElement.children.length; i++) {
-            if (this.previousElementSibling.parentElement.children[i].hasAttribute("aria-selected")) {
-              oldTabPanel = this.previousElementSibling.parentElement.children[i].firstChild.getAttribute("href");
-              this.previousElementSibling.parentElement.children[i].removeAttribute("aria-selected");
-              this.previousElementSibling.parentElement.children[i].setAttribute("tabindex", "-1");
-              break;
-            }
-          }
-
-          //hide old tab panel
-          document.querySelector(oldTabPanel).setAttribute("aria-hidden", "true");
-          document.querySelector(oldTabPanel).setAttribute("tabindex", "-1");
-
-          //remove old tab ID from storage
-          var tabIndex = currentTabs.indexOf(oldTabPanel);
-          if (tabIndex > -1) {
-            currentTabs.splice(tabIndex, 1);
-          }
-
-          //select new clicked tab
-          this.previousElementSibling.setAttribute("aria-selected", "true");
-          this.previousElementSibling.setAttribute("tabindex", "0");
-
-          //show new tab panel
-          var newTabPanel = this.previousElementSibling.firstChild.getAttribute("href");
-
-          //show new tab
-          document.querySelector(newTabPanel).setAttribute("aria-hidden", "false");
-          document.querySelector(newTabPanel).setAttribute("tabindex", "0");
-
-          //add new tab to storage
-          currentTabs.push(newTabPanel);
-          localStorage.setItem(juis.tabList.storageIndex, currentTabs.join());
-
-          //prevent hash change
-          event.preventDefault();
-          return false;
-
-          break;
-        case "ArrowRight":
-          // Do something for "right arrow" key press.
-
-          //set focus on the prev tab
-          this.nextElementSibling.focus();
-
-          var tabGroup = this.nextElementSibling.parentElement.parentElement;
-
-          if (!tabGroup.classList.contains("g-tab__tab-group")) {
-            //todo: throw error "Broken HTML!"
-            console.log("HTML does not contain correct class for tab group!");
-          }
-
-          //get currently selected tabs
-          var currentTabs = juis.tabList.getCurrentTabs();
-
-          //deselect old clicked tab
-          var oldTabPanel;
-          for (var i=0; i < this.nextElementSibling.parentElement.children.length; i++) {
-            if (this.nextElementSibling.parentElement.children[i].hasAttribute("aria-selected")) {
-              oldTabPanel = this.nextElementSibling.parentElement.children[i].firstChild.getAttribute("href");
-              this.nextElementSibling.parentElement.children[i].removeAttribute("aria-selected");
-              this.nextElementSibling.parentElement.children[i].setAttribute("tabindex", "-1");
-              break;
-            }
-          }
-
-          //hide old tab panel
-          document.querySelector(oldTabPanel).setAttribute("aria-hidden", "true");
-          document.querySelector(oldTabPanel).setAttribute("tabindex", "-1");
-
-          //remove old tab ID from storage
-          var tabIndex = currentTabs.indexOf(oldTabPanel);
-          if (tabIndex > -1) {
-            currentTabs.splice(tabIndex, 1);
-          }
-
-          //select new clicked tab
-          this.nextElementSibling.setAttribute("aria-selected", "true");
-          this.nextElementSibling.setAttribute("tabindex", "0");
-
-          //show new tab panel
-          var newTabPanel = this.nextElementSibling.firstChild.getAttribute("href");
-
-          //show new tab
-          document.querySelector(newTabPanel).setAttribute("aria-hidden", "false");
-          document.querySelector(newTabPanel).setAttribute("tabindex", "0");
-
-          //add new tab to storage
-          currentTabs.push(newTabPanel);
-          localStorage.setItem(juis.tabList.storageIndex, currentTabs.join());
-
-          //prevent hash change
-          event.preventDefault();
-          return false;
-
-          break;
-        default:
-          return; // Quit when this doesn't handle the key event.
-
+          case "ArrowLeft":
+            // Do something for "left arrow" key press.
+            juis.tabList.switchTab(this.previousElementSibling, event);
+            break;
+          case "ArrowRight":
+            // Do something for "right arrow" key press.
+            juis.tabList.switchTab(this.nextElementSibling, event);
+            break;
+          default:
+            return; // Quit when this doesn't handle the key event.
         };
       });
+      tabs[i].onkeydown = function(event) {
+        if (!event)
+            event = window.event;
+            var code = event.keyCode;
+        if (event.charCode && code == 0)
+            code = event.charCode;
+        switch(code) {
+          case 37:
+                // Key left.
+                juis.tabList.switchTab(this.previousElementSibling, event);
+                break;
+          case 39:
+                // Key right.
+                juis.tabList.switchTab(this.nextElementSibling, event);
+                break;
+        };
+      };
     };
+  },
+  switchTab: function (sibling, event) {
+    if (!sibling || !sibling.classList.contains("g-tab__tab")) {
+      return;
+    }
+
+    //set focus on the prev tab
+    sibling.focus();
+    sibling.click();
+    event.preventDefault();
   },
   activateTab: function (event) {
     //check if there are any tab groups on the page
