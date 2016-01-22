@@ -81,6 +81,7 @@ juis.tabList = {
     //if any of the tabs are clicked run activateTab
     for (var i=0; i < tabs.length; i++) {
       tabs[i].addEventListener("click", juis.tabList.activateTab);
+      // Comment below is code that is NOT deprecated, but only works on the latest Firefox
       /*tabs[i].addEventListener("keydown", function (event) {
         //if modifier key is pressed, get out (don't change tabs with left or right)
         switch (event.key) {
