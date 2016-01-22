@@ -20,6 +20,7 @@ juis.tabList = {
     for (var h=0; h < juis.tabList.tabLista.length; h++) {
       juis.tabList.tabLista[h].setAttribute("tabindex", "-1");
       juis.tabList.tabLista[h].parentElement.setAttribute("role", "tab");
+      juis.tabList.tabLista[h].parentElement.parentElement.setAttribute("role", "tablist");
     };
 
     //fetch previously selected tabs
@@ -80,7 +81,7 @@ juis.tabList = {
     //if any of the tabs are clicked run activateTab
     for (var i=0; i < tabs.length; i++) {
       tabs[i].addEventListener("click", juis.tabList.activateTab);
-      tabs[i].addEventListener("keydown", function (event) {
+      /*tabs[i].addEventListener("keydown", function (event) {
         //if modifier key is pressed, get out (don't change tabs with left or right)
         switch (event.key) {
           case "ArrowLeft":
@@ -94,8 +95,21 @@ juis.tabList = {
           default:
             return; // Quit when this doesn't handle the key event.
         };
-      });
+      });*/
       tabs[i].onkeydown = function(event) {
+        //if a modifier key is held down do not change tabs with left and right arrow
+        if (event.getModifierState("Fn") ||
+            event.getModifierState("Hyper") ||
+            event.getModifierState("OS") ||
+            event.getModifierState("Control") ||
+            event.getModifierState("Alt") ||
+            event.getModifierState("Meta") ||
+            event.getModifierState("Shift") ||
+            event.getModifierState("Accel") ||
+            event.getModifierState("Super") ||
+            event.getModifierState("Win") /* hack for IE */) {
+        return;
+        }
         if (!event)
             event = window.event;
             var code = event.keyCode;
