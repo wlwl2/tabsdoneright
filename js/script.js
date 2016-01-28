@@ -21,7 +21,7 @@ juis.tabList = {
       juis.tabList.tabLista[h].setAttribute("tabindex", "-1");
       juis.tabList.tabLista[h].parentElement.setAttribute("role", "tab");
       juis.tabList.tabLista[h].parentElement.parentElement.setAttribute("role", "tablist");
-    };
+    }
 
     //fetch previously selected tabs
     var currentTabs = juis.tabList.getCurrentTabs();
@@ -44,8 +44,8 @@ juis.tabList = {
         else {
           //leave it visible
           anyShown = true;
-          tabPanels[j].setAttribute("role", "tabpanel")
-          tabPanels[j].setAttribute("tabindex", "0")
+          tabPanels[j].setAttribute("role", "tabpanel");
+          tabPanels[j].setAttribute("tabindex", "0");
           //select associated tab
           document.querySelector(".g-tab__tab a[href='#" + tabPanels[j].id + "']").parentElement.setAttribute("aria-selected", "true");
           document.querySelector(".g-tab__tab a[href='#" + tabPanels[j].id + "']").parentElement.setAttribute("tabindex", "0");
@@ -60,9 +60,9 @@ juis.tabList = {
         tabPanels[0].setAttribute("role", "tabpanel");
 
         //make the other tabpanels have a tabindex of -1
-        for (var j=1; j < tabPanels.length; j++) {
+        for (j=1; j < tabPanels.length; j++) {
           tabPanels[j].setAttribute("tabindex", "-1");
-        };
+        }
 
         //select first tab
         var tabs = juis.tabList.tabGroups[i].querySelectorAll(".g-tab__tab");
@@ -72,7 +72,7 @@ juis.tabList = {
         //make the other tabs have a tabindex of -1
         for (var k=1; k < tabPanels.length; k++) {
           tabs[k].setAttribute("tabindex", "-1");
-        };
+        }
       }
     }
   },
@@ -114,7 +114,7 @@ juis.tabList = {
         if (!event)
             event = window.event;
             var code = event.keyCode;
-        if (event.charCode && code == 0)
+        if (event.charCode && code === 0)
             code = event.charCode;
         switch(code) {
           case 37:
@@ -125,9 +125,9 @@ juis.tabList = {
                 // Key right.
                 juis.tabList.switchTab(this.nextElementSibling, event);
                 break;
-        };
+        }
       };
-    };
+    }
   },
   switchTab: function (sibling, event) {
     if (!sibling || !sibling.classList.contains("g-tab__tab")) {
@@ -193,7 +193,7 @@ juis.tabList = {
 
   },
   getCurrentTabs: function() {
-    var currentTabs = new Array();
+    var currentTabs = [];
     var storedTabs = localStorage.getItem(juis.tabList.storageIndex);
     if (storedTabs) {
       currentTabs = storedTabs.split(",");
